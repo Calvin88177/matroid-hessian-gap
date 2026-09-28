@@ -29,7 +29,7 @@ be the basis generating (Kirchhoff) polynomial of its graphic matroid, summing o
 
 Rescaling each variable by a positive edge weight, x_e ↦ w_e x_e, is a nonnegative linear change of variables, so f_G stays Lorentzian (Brändén–Huh). It also preserves simplicity, so the signature theorem applies to the rescaled polynomial. This is a direct corollary.
 
-A symmetric rescaling is **not** a chemical potential: a chemical potential weights forward and backward hopping differently (e^{±μ}). With that asymmetric deformation the polynomial stays positive (Tutte's directed matrix-tree theorem) but can **lose** the Lorentzian property. On K₄ it fails at every μ > 0 tested (`verification/chemical_potential.py`; see [ROADMAP ¶6–7](ROADMAP.md)).
+A symmetric rescaling is **not** a chemical potential: a chemical potential weights forward and backward hopping differently (e^{±μ}). With that asymmetric deformation the polynomial stays positive (Tutte's directed matrix-tree theorem) but can **lose** the Lorentzian property. On K₄ it fails at every μ > 0 tested (`verification/chemical_potential.py`; see [ROADMAP ¶6–7](ROADMAP.md)). By Brändén–Huh's Theorem 3.14, f_μ is Lorentzian for every μ ≥ 0 exactly when the forward-edge count s_r is M-concave on spanning trees; the script checks both sides.
 
 ---
 
@@ -43,7 +43,7 @@ python spectral_gap.py     # closed-form Hessian, validated against symbolic; ra
 python gap_normalized.py   # normalized gap γ across weight ratios K = 1, 2, 10, 100
 python plot_gap.py         # regenerates figures/gap_vs_size.png
 python observations.py     # closed forms at uniform weights; exhaustive small-graph scan (ROADMAP ¶9)
-python chemical_potential.py  # exact Lorentzian test under an asymmetric chemical potential (ROADMAP ¶6–7)
+python chemical_potential.py  # exact Lorentzian test under a chemical potential, and the M-concavity criterion (ROADMAP ¶6–7)
 ```
 
 
@@ -125,9 +125,9 @@ The first Lean 4 target is a certificate of the K₄ counterexample. Taking e^μ
 | Status | Content |
 |---|---|
 | **Known (cited)** | Hessian signature theorem (Nagaoka–Yazawa; Murai–Nagaoka–Yazawa) |
-| **Computationally verified** | Signature on the graphs above, including the hypothesis boundary; normalized gap γ bounded in graph size for bounded weight ratios (six families); an asymmetric chemical potential breaks the Lorentzian property on K₄, K₅ and the diamond (for one of two roots) |
+| **Computationally verified** | Signature on the graphs above, including the hypothesis boundary; normalized gap γ bounded in graph size for bounded weight ratios (six families); an asymmetric chemical potential breaks the Lorentzian property on K₄, K₅, the house and the diamond (for one of two roots), and the M-concavity criterion agrees with the eigenvalue test in 24 of 24 cases |
 | **Proposal (not a theorem)** | Reading the Hessian as an emergent Lorentzian metric, i.e. a combinatorial model of spacetime |
-| **Open (to my knowledge)** | When the chemical-potential deformation stays Lorentzian (is triangle-free sufficient?); a uniform lower bound on γ for bounded weight ratios; continuum limits |
+| **Open (to my knowledge)** | When the forward-edge count s_r is M-concave on spanning trees, i.e. when the chemical-potential deformation stays Lorentzian for every μ (Brändén–Huh, Thm 3.14); is triangle-free sufficient? a uniform lower bound on γ for bounded weight ratios; continuum limits |
 
 All results are for finite graphs. The physical interpretation motivates the program, but none of the mathematics above depends on it.
 

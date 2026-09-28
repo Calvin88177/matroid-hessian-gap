@@ -44,7 +44,7 @@ where s_r(T) is the number of forward edges minus the number of backward edges. 
 
 For my first experiments, "forward" means from lower to higher vertex label, on every edge. This is a toy. I return to the faithful version in paragraph 8.
 
-**6. What happens.** I expected the Lorentzian property to survive. It does not, at least not always. Here are the results of the exact test for μ ∈ {0.1, 0.5, 1, 2}, and for K₄ also for μ ∈ {0.001, 0.01}:
+**6. What happens.** I expected the Lorentzian property to survive. It does not, at least not always. Here are the results of the exact test for μ from 0.01 to 5, and for K₄ also for μ = 0.001:
 
 | Graph | Root 0 | Root 1 | Triangles |
 |---|---|---|---|
@@ -55,12 +55,15 @@ For my first experiments, "forward" means from lower to higher vertex label, on 
 | C₅ | survives | survives | 0 |
 | 2×3 grid | survives | survives | 0 |
 | K₂,₃ | survives, trivially | survives, trivially | 0 |
+| House | **fails** | **fails** | 1 |
+| Bowtie (two triangles at a vertex) | survives | survives | 2 |
+| C₆, K₃,₃, 3×3 grid | survive | survive | 0 |
 
 On K₄ the failure is not confined to a quadratic derivative. At μ = 1, at 62 of 2,000 random positive points, the full Hessian of f_μ has *two* positive eigenvalues, so the Lorentzian signature itself is lost.
 
 K₂,₃ survives for a reason worth recording, because it shows what a trivial survival looks like. Its labels put one side {0, 1} entirely below the other side {2, 3, 4}, so every edge points from the first side to the second. In a tree directed away from a root on the first side, each vertex on the second side is entered forward, and each non-root vertex on the first side is entered backward. So s_r(T) is the same for every tree, and f_μ is a constant multiple of f_0. The same argument works for a root on the other side, and for any bipartite graph whose labels respect the bipartition in this way.
 
-**7. The mechanism.** Two observations explain the table, one of them a proof.
+**7. The mechanism.** Three observations explain the table. The first two are short proofs; the third is a theorem of Brändén and Huh that turns the whole question into combinatorics.
 
 *(a) Where violations can come from (proved).* Each quadratic derivative is a symmetric matrix depending continuously on μ. If at μ = 0 it has one positive eigenvalue and no zero eigenvalue, it keeps that signature for all small μ. So f_μ is Lorentzian for all sufficiently small μ unless some quadratic derivative of f_0 has a zero eigenvalue. Call these the *zero modes*. The cycles have none (0 of 4 for C₄, 0 of 10 for C₅), so their survival at small μ is automatic. Their survival up to μ = 2 is observed.
 
@@ -76,11 +79,17 @@ A nonzero μ weights the parallel pair differently and pushes one zero eigenvalu
 
 So zero modes are *necessary* for failure at small μ, by (a), but not *sufficient*. The 2×3 grid has zero modes in 27 of its 35 quadratic derivatives, and it survives at every μ tested. What decides is the *direction* in which μ pushes each zero mode. In the language of degenerate perturbation theory: if Q(μ) = Q₀ + μQ₁ + μ²Q₂ + … and P projects onto the kernel of Q₀, the first-order effective matrix is P Q₁ P. When that vanishes, the second-order one is P(Q₂ − Q₁ Q₀⁺ Q₁)P, where Q₀⁺ is the pseudoinverse. The observed μ² scaling on K₄ suggests the first-order term vanishes there. For small μ, a zero mode turns positive when the first non-vanishing effective matrix has a positive eigenvalue. I think this is the right way to attack the problem, but I have not carried it out.
 
+*(c) What decides it for every μ (Brändén–Huh, Theorem 3.14).* Brändén and Huh prove that Σ_α q^{ν(α)} x^α/α! is Lorentzian for all 0 < q ≤ 1 if and only if ν is M-convex. Here the polynomial is multiaffine, q = e^{−μ} and ν = −s_r. So f_μ is Lorentzian for every μ ≥ 0 exactly when T ↦ s_r(T) is M-concave on the spanning trees, that is, when it defines a valuated matroid: for all trees A, B and every a ∈ A∖B there is b ∈ B∖A such that A − a + b and B − b + a are trees and
+
+$$s_r(A) + s_r(B) \le s_r(A-a+b) + s_r(B-b+a).$$
+
+The question is then no longer about eigenvalues at all. As a check, the exchange test and the eigenvalue test agree in all 24 cases I tried: twelve graphs, two roots each, including the house, which fails, and the bowtie, which has triangles and survives for both roots. I suspect the zero-mode mechanism of (b) is the local, two-swap face of this exchange condition, but I have not proved it.
+
 **8. The questions.**
 
-> *(A) For which graphs, roots and orientations does f_μ remain Lorentzian for all μ? Is it enough for the graph to be triangle-free?*
+> *(A) For which graphs, roots and orientations is s_r M-concave on the spanning trees, so that f_μ stays Lorentzian for every μ? Is it enough for the graph to be triangle-free?*
 
-Every failure I have seen is on a graph with triangles, and every triangle-free graph I have tried survives. But triangles do not force failure: the diamond survives for one root and fails for the other.
+Every failure I have seen is on a graph with triangles, and every triangle-free graph I have tried survives. But triangles do not force failure: the diamond survives for one root and fails for the other, and the bowtie survives for both.
 
 > *(B) Is there a clean criterion for the sign of the effective perturbation in paragraph 7 on a triangle's zero mode, and on the zero modes that come from longer cycles?*
 
@@ -90,7 +99,7 @@ Answering (B) for triangles would explain the diamond, where the same triangles 
 
 Here the lattice is time-layered, G = C_L × H, with time periodic, and e^{±μ} sits only on the time-like edges. In lattice field theory, the μ-dependence of a fermion determinant enters through paths that wind around periodic time. I would like to know whether the failure of the Lorentzian property tracks winding in the same way. Net direction alone cannot be the whole story: under my toy orientation, C₄ and C₅ have nonzero net direction around the cycle, and both survive.
 
-I have not found (A)–(C) treated in the literature, but I have not yet searched as carefully as I must before calling them open.
+By paragraph 7(c), (A) is equivalent to a question about valuated matroids; that equivalence is Brändén and Huh's, not mine. I have not found the combinatorial question itself, or (B) and (C), treated in the literature, but I have not yet searched as carefully as I must before calling them open.
 
 ---
 
@@ -137,9 +146,9 @@ Known results are qualitative (Murai–Nagaoka–Yazawa). Spectral independence 
 
 **12. What I intend to do.** I plan to take question (A) to the Caltech Mathathon, with (B) as the route to a proof and (C) as the physical target. I would work on four threads at once:
 
-- *Proof.* Carry out the perturbation analysis of paragraph 7 for a triangle's zero mode, to find exactly when it turns positive (the diamond shows the answer depends on the root). Then either prove the triangle-free case or find the graph that breaks it.
-- *Search.* Encode a graph together with its orientation and root as a token sequence, as in Axplorer's built-in square-free-graph environment. Score it by the largest second eigenvalue over all quadratic derivatives, which is positive exactly on a violation. Axplorer alternates a transformer trained on the best examples with classical local search. It can hunt for triangle-free violations beyond the sizes where exhaustive search is possible. Every hit is re-verified exactly by the independent script. The number of quadratic derivatives grows quickly, so this is realistic only for graphs of moderate size. Scaling the scoring function is part of the work. After that come the time-layered lattices of (C).
-- *Formalization.* Write a Lean 4 certificate of the K₄ counterexample. Taking e^μ = 2 makes every coefficient rational, and the violation persists there, so the certificate is a finite, exact computation: exhibit a two-dimensional subspace on which one explicit quadratic form is positive definite. When I last checked, Mathlib had matroids but no graphic matroid of a graph and no basis generating polynomial, so the general statements must wait. The K_n spectrum of (D) is the next target.
+- *Proof.* Characterize the M-concavity of s_r directly from the exchange condition of paragraph 7(c), using the perturbation analysis of paragraph 7 to see which two-tree swaps fail and why (the diamond shows the answer depends on the root). Then either prove the triangle-free case or find the graph that breaks it.
+- *Search.* Encode a graph together with its orientation and root as a token sequence, as in Axplorer's built-in square-free-graph environment. Score it by the total violation of the exchange inequality of paragraph 7(c), which is zero exactly when f_μ stays Lorentzian for every μ. Axplorer alternates a transformer trained on the best examples with classical local search. It can hunt for triangle-free violations beyond the sizes where exhaustive search is possible. Every hit is re-verified exactly by the independent script. The number of pairs of trees grows quickly, so this is realistic only for graphs of moderate size. Scaling the scoring function is part of the work. After that come the time-layered lattices of (C).
+- *Formalization.* Write a Lean 4 certificate of the K₄ counterexample. The exchange form of paragraph 7(c) makes this purely combinatorial: exhibit two spanning trees A, B and an edge a ∈ A∖B for which every exchange fails the inequality. For a specific μ there is also a linear-algebra certificate: taking e^μ = 2 makes every coefficient rational, and one explicit quadratic form is positive definite on a two-dimensional subspace. When I last checked, Mathlib had matroids but no graphic matroid of a graph and no basis generating polynomial, so the general statements must wait. The K_n spectrum of (D) is the next target.
 - *Writing.* A write-up that keeps the proved, the computed and the conjectured visibly apart, and an explanation I can defend step by step.
 
 If the event goes well, the natural sequel is a paper on (A)–(C), with (D)–(E) as supporting results, together with a Lean development and the search data.
@@ -154,7 +163,7 @@ Calvin Sabastian Tanzil
 
 ---
 
-**P.S. on what came before, and on tools.** Everything described above was done before the Mathathon, and none of the questions (A)–(F) is answered here. Every number in this note can be reproduced from `verification/`:
+**P.S. on what came before, and on tools.** Everything described above was done before the Mathathon, and none of the questions (A)–(F) is answered here. The reduction in paragraph 7(c) is Brändén and Huh's theorem applied to this family; I checked it numerically but proved nothing new there. Every number in this note can be reproduced from `verification/`:
 
 - `hyp_check.py` for paragraph 2;
 - `spectral_gap.py`, `gap_normalized.py` and `observations.py` for paragraph 9;
