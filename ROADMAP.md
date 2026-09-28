@@ -1,4 +1,4 @@
-I want to set down some observations about the spanning-tree polynomial of a graph, together with the questions they have led me to. Some of what follows is proved, some is only computed, and some is speculation. I have tried to say which is which each time. Paragraphs 1–3 recall what is known, paragraph 4 explains why I care, paragraphs 5–10 contain what I think is new, and paragraph 11 is the speculative one. If that last part does not interest you, the rest should stand without it.
+I want to set down some observations about the spanning-tree polynomial of a graph, together with the questions they have led me to. Some of what follows is proved, some is only computed, and some is speculation. I have tried to say which is which each time. Paragraphs 1–3 recall what is known, paragraph 4 explains why I care, paragraphs 5–10 contain what I think is new, paragraph 11 is the speculative one, and paragraph 14 opens a second direction, closer to the sign problem itself. If the speculative part does not interest you, the rest should stand without it.
 
 ---
 
@@ -32,17 +32,17 @@ which is the Burton–Pemantle transfer-current theorem. Up to scaling, then, th
 
 Spanning trees are the simplest class where both hold visibly. Kirchhoff gives the positivity. Lorentzian structure (log-concavity) is the mechanism behind efficient sampling in the matroid setting: it is what lets random walks on matroid bases mix rapidly (Anari, Liu, Oveis Gharan, Vinzant).
 
-I should be plain about the limits. These fermions never had a sign problem. Even in the deformed setting below, the weights stay positive, the partition function is a determinant, and weighted arborescences can still be sampled exactly by Wilson's algorithm. The physically hard cases, such as doped Hubbard models or QCD at finite baryon density, involve fermion matrices of a different kind, and nothing here reaches them. My interest is structural: *which deformations keep positivity together with log-concavity, and which keep positivity but lose log-concavity?* (The reverse cannot happen here: a Lorentzian polynomial has nonnegative coefficients by definition.)
+I should be plain about the limits. At zero chemical potential these fermions have no sign problem at all. Under the driven deformation of paragraphs 5–8 the weights stay positive, the partition function is a determinant, and weighted arborescences can still be sampled exactly by Wilson's algorithm. Under a genuine chemical potential some weights do turn negative (paragraph 14), but the partition function is still a single determinant, so this class is a laboratory, not a hard case. The physically hard cases, such as doped Hubbard models or QCD at finite baryon density, involve fermion matrices of a different kind, and nothing here reaches them. My interest is structural: *which deformations keep positivity together with log-concavity, and which keep positivity but lose log-concavity?* (The reverse cannot happen here: a Lorentzian polynomial has nonnegative coefficients by definition.)
 
-**5. The deformation: a chemical potential.** The deformation that matters most physically is a chemical potential. It does not rescale hopping symmetrically. It weights forward and backward hopping differently, by e^{+μ} and e^{−μ}. For a symmetric rescaling x_e ↦ w_e x_e the question is empty: that is a nonnegative linear change of variables, which preserves the Lorentzian property by Brändén–Huh. I had once taken that fact as the answer to the chemical-potential question. It is not.
+**5. The deformation: driven hopping.** The deformations that matter physically make hopping direction-dependent, weighting forward and backward hops by e^{+μ} and e^{−μ}. (For a symmetric rescaling x_e ↦ w_e x_e the question is empty: that is a nonnegative linear change of variables, which preserves the Lorentzian property by Brändén–Huh.) There are two natural ways to put such hopping into a Laplacian, and they differ only in the diagonal. A lattice chemical potential, in the sense of Hasenfratz and Karsch, leaves the diagonal alone; I come to it in paragraph 14. The other way adjusts the diagonal so that every column of the matrix sums to zero. Up to sign and transposition, that matrix is the generator of a biased random walk, the kind of operator that describes driven hopping out of equilibrium. I call it the *driven deformation*, and paragraphs 5–8 are about it. An earlier version of this note called it a chemical potential. It is not one, and the difference changes the answer completely.
 
-For the asymmetric deformation, Tutte's directed matrix-tree theorem writes the reduced determinant of the directed Laplacian as a positive sum over arborescences. Directing each spanning tree away from a root r,
+For the driven deformation, Tutte's directed matrix-tree theorem writes the reduced determinant as a positive sum over arborescences. Directing each spanning tree away from a root r,
 
 $$f_\mu(x) = \sum_T e^{\mu\, s_r(T)} \prod_{e \in T} x_e,$$
 
 where s_r(T) is the number of forward edges minus the number of backward edges. The support is still the set of spanning trees, so it is still M-convex. By Brändén–Huh, f_μ is Lorentzian *if and only if every quadratic derivative* ∂^S f_μ (with |S| = deg − 2) has a Hessian with at most one positive eigenvalue. This makes the question exact and finite for each graph. The quadratic derivative ∂^S f_μ is the tree polynomial of the contraction G/S, a graph on three vertices, with its coefficients inherited from the orientations.
 
-For my first experiments, "forward" means from lower to higher vertex label, on every edge. This is a toy. I return to the faithful version in paragraph 8.
+For my first experiments, "forward" means from lower to higher vertex label, on every edge. This is a toy; paragraph 8 returns to time-layered lattices.
 
 **6. What happens.** I expected the Lorentzian property to survive. It does not, at least not always. Here are the results of the exact test for μ from 0.01 to 5, and for K₄ also for μ = 0.001:
 
@@ -65,7 +65,7 @@ K₂,₃ survives for a reason worth recording, because it shows what a trivial 
 
 **7. The mechanism.** Three observations explain the table. The first two are short proofs; the third is a theorem of Brändén and Huh that turns the whole question into combinatorics.
 
-*(a) Where violations can come from (proved).* Each quadratic derivative is a symmetric matrix depending continuously on μ. If at μ = 0 it has one positive eigenvalue and no zero eigenvalue, it keeps that signature for all small μ. So f_μ is Lorentzian for all sufficiently small μ unless some quadratic derivative of f_0 has a zero eigenvalue. Call these the *zero modes*. The cycles have none (0 of 4 for C₄, 0 of 10 for C₅), so their survival at small μ is automatic. Their survival up to μ = 2 is observed.
+*(a) Where violations can come from (proved).* Each quadratic derivative is a symmetric matrix depending continuously on μ. If at μ = 0 it has one positive eigenvalue and no zero eigenvalue, it keeps that signature for all small μ. So f_μ is Lorentzian for all sufficiently small μ unless some quadratic derivative of f_0 has a zero eigenvalue. Call these the *zero modes*. The cycles have none (0 of 4 for C₄, 0 of 10 for C₅), so their survival at small μ is automatic. Their survival up to μ = 5 is observed.
 
 *(b) Where the zero modes come from (proved).* At μ = 0 every coefficient is 1, so the Hessian of a quadratic derivative has entry 1 for two edges of G/S that join different pairs of its three vertices, and 0 otherwise. Edges joining the same pair give identical rows, so the rank is at most 3, and there is a zero eigenvalue exactly when G/S has a pair of parallel edges. This is the degeneracy of paragraph 2 again. (It agrees with direct computation on all 204 quadratic derivatives of eight small graphs.) Contracting one edge of a triangle produces a parallel pair; on the grid, contracting two edges of a 4-cycle does. On K₄, every one of the six quadratic derivatives has a zero mode. Take the one obtained by contracting edge {2, 3}:
 
@@ -95,9 +95,9 @@ Every failure I have seen is on a graph with triangles, and every triangle-free 
 
 Answering (B) for triangles would explain the diamond, where the same triangles lead to failure for one root and not for the other. The grid, whose zero modes come from 4-cycles and never turned positive in my tests, suggests longer cycles behave differently.
 
-> *(C) Does the Lorentzian structure survive a physically faithful chemical potential?*
+> *(C) On time-layered lattices, with e^{±μ} only on the time-like edges, when does the driven deformation stay Lorentzian?*
 
-Here the lattice is time-layered, G = C_L × H, with time periodic, and e^{±μ} sits only on the time-like edges. In lattice field theory, the μ-dependence of a fermion determinant enters through paths that wind around periodic time. I would like to know whether the failure of the Lorentzian property tracks winding in the same way. Net direction alone cannot be the whole story: under my toy orientation, C₄ and C₅ have nonzero net direction around the cycle, and both survive.
+Here G = C_L × H, with time periodic. Under the genuine chemical potential of paragraph 14, μ enters only through cycles that wind around periodic time, as it does in lattice field theory. I would like to know whether the failure of the Lorentzian property under the driven deformation tracks winding in the same way. Net direction alone cannot be the whole story: under my toy orientation, C₄ and C₅ have nonzero net direction around the cycle, and both survive.
 
 By paragraph 7(c), (A) is equivalent to a question about valuated matroids; that equivalence is Brändén and Huh's, not mine. I have not found the combinatorial question itself, or (B) and (C), treated in the literature, but I have not yet searched as carefully as I must before calling them open.
 
@@ -138,13 +138,13 @@ Against this stands a second observation. The minimum of γ(G, 1) over *all* con
 
 > *(F) Which graphs minimize γ(G, 1) on V vertices, and how fast does the minimum decay?*
 
-Known results are qualitative (Murai–Nagaoka–Yazawa). Spectral independence (Anari–Liu–Oveis Gharan) controls the *largest* eigenvalue of the correlation matrix, the opposite end of the spectrum from γ. For (E), the natural tools seem to be perturbation from (D) via Weyl's inequalities for small K, and the negative correlation of spanning-tree measures for large K. Paragraph 7 shows these margins are not idle. For the Lorentzian property under a chemical potential, the relevant margin is the smallest eigenvalue, in absolute value, across *all* quadratic derivatives. It is exactly zero on K₄, on the diamond and on the grid alike; what separates them is the direction in which μ pushes the zero modes.
+Known results are qualitative (Murai–Nagaoka–Yazawa). Spectral independence (Anari–Liu–Oveis Gharan) controls the *largest* eigenvalue of the correlation matrix, the opposite end of the spectrum from γ. For (E), the natural tools seem to be perturbation from (D) via Weyl's inequalities for small K, and the negative correlation of spanning-tree measures for large K. Paragraph 7 shows these margins are not idle. For the Lorentzian property under the driven deformation, the relevant margin is the smallest eigenvalue, in absolute value, across *all* quadratic derivatives. It is exactly zero on K₄, on the diamond and on the grid alike; what separates them is the direction in which μ pushes the zero modes.
 
 ---
 
-**11. Speculation.** The signature (1, n−1) is formally Lorentzian, and I began this work wondering whether it could be read as an emergent metric: a combinatorial seed of spacetime. I no longer think that reading can be taken for granted. If it is to mean anything physically, it must survive two things. It must survive a large-graph limit, which is what (E) is about. And it must survive finite density, which in general it does not, as paragraph 6 shows. Whether it survives on the graphs that matter, if any do, is question (A). I find it more honest, and more interesting, to let the mathematics decide.
+**11. Speculation.** The signature (1, n−1) is formally Lorentzian, and I began this work wondering whether it could be read as an emergent metric: a combinatorial seed of spacetime. I no longer think that reading can be taken for granted. First, the signature lives on the n-dimensional space of edge weights, not on a spacetime, and every simple graph has it, so by itself it selects no dimension and no geometry. Second, a model with positive weights is a Euclidean statistical model: Lorentzian physics is reached from one by analytic continuation, and a direct Lorentzian path integral carries oscillating, signed weights. Paragraph 14 shows the same pattern in miniature, with the positive, Lorentzian polynomial at imaginary chemical potential and signs appearing as one continues to real μ. So the sign-free structure this note studies and an emergent Lorentzian spacetime pull in opposite directions. Any spacetime reading would also have to survive a large-graph limit, which is what (E) is about. I find it more honest, and more interesting, to let the mathematics decide.
 
-**12. What I intend to do.** I plan to take question (A) to the Caltech Mathathon, with (B) as the route to a proof and (C) as the physical target. I would work on four threads at once:
+**12. What I intend to do.** I plan to take question (A) to the Caltech Mathathon, with (B) as the route to a proof and (C) as the lattice case. I would work on four threads at once:
 
 - *Proof.* Characterize the M-concavity of s_r directly from the exchange condition of paragraph 7(c), using the perturbation analysis of paragraph 7 to see which two-tree swaps fail and why (the diamond shows the answer depends on the root). Then either prove the triangle-free case or find the graph that breaks it.
 - *Search.* Encode a graph together with its orientation and root as a token sequence, as in Axplorer's built-in square-free-graph environment. Score it by the total violation of the exchange inequality of paragraph 7(c), which is zero exactly when f_μ stays Lorentzian for every μ. Axplorer alternates a transformer trained on the best examples with classical local search. It can hunt for triangle-free violations beyond the sizes where exhaustive search is possible. Every hit is re-verified exactly by the independent script. The number of pairs of trees grows quickly, so this is realistic only for graphs of moderate size. Scaling the scoring function is part of the work. After that come the time-layered lattices of (C).
@@ -153,7 +153,32 @@ Known results are qualitative (Murai–Nagaoka–Yazawa). Spectral independence 
 
 If the event goes well, the natural sequel is a paper on (A)–(C), with (D)–(E) as supporting results, together with a Lean development and the search data.
 
-**13. What would change my mind.** A triangle-free graph that fails would end the simple form of (A). The perturbation analysis would then have to say which longer cycles matter. A paper answering (A) would mean the right move is to build on it. And if faithful lattices (C) always keep the Lorentzian property while toy orientations lose it, then the failure in paragraph 6 is an artifact of orienting every edge, and the physically interesting case is the robust one. I would count any of these as progress.
+**13. What would change my mind.** A triangle-free graph that fails would end the simple form of (A). The perturbation analysis would then have to say which longer cycles matter. A paper answering (A) would mean the right move is to build on it. And if time-layered lattices (C) always keep the Lorentzian property while toy orientations lose it, then the failure in paragraph 6 is an artifact of orienting every edge, and the interesting case is the robust one. I would count any of these as progress.
+
+**14. A second direction: a genuine chemical potential.** A lattice chemical potential, in the sense of Hasenfratz and Karsch, puts e^{±μ} on the time-like hops and leaves the diagonal alone:
+
+$$M(\mu) = D - W(\mu), \qquad W_{uv} = x_e\, e^{\mu t_{uv}},$$
+
+where D is the ordinary degree matrix and t_{uv} is +1, −1 or 0 as the hop goes forward in time, backward, or sideways. Its determinant is no longer a sum over trees. By a theorem of Kenyon it is a sum over *cycle-rooted spanning forests*, subgraphs in which every component contains exactly one cycle:
+
+$$\det M(\mu) = \sum_{F} \prod_{e \in F} x_e \prod_{C \subset F} \big(2 - e^{\mu \ell_C} - e^{-\mu \ell_C}\big),$$
+
+the second product running over the cycles of F. Here ℓ_C is the net number of forward-minus-backward time steps around C, that is, L times the number of times C winds around periodic time. A cycle that does not wind contributes zero, so μ enters only through winding, as it does in lattice field theory. I checked the formula against the determinant on periodic ladders, two time-loops of length L joined by rungs, for real and imaginary μ alike.
+
+The sign of the cycle factor decides everything.
+
+- *Imaginary μ = iθ.* The factor is 4 sin²(θℓ_C/2) ≥ 0, so every weight is nonnegative. More is true. The matrix is then a sum of rank-one positive semidefinite matrices, one per edge, so by Cauchy–Binet each coefficient is |det V_F|² for an explicit matrix V_F, and by Borcea–Brändén the determinant is a real stable polynomial in the edge weights. Homogeneous real stable polynomials with nonnegative coefficients are Lorentzian (Brändén–Huh, Proposition 2.2), and the exact test of paragraph 5 confirms it on the ladders. For generic θ, the forests whose cycles all wind are the bases of a matroid, the frame matroid of the graph with gains e^{iθt} (Zaslavsky), so this is a Lorentzian basis polynomial of a matroid other than the graphic one.
+- *Real μ.* The factor is −4 sinh²(μℓ_C/2) < 0, so a forest's weight has sign (−1)^{number of cycles}. On the ladder with L = 3, 50 of the 51 forests with nonzero weight are negative; for L = 4, 192 of 193. In the Cauchy–Binet form the coefficient becomes det V_F · det W_F for two *different* matrices, and positivity is gone.
+
+So the imaginary side has the whole package, positive and log-concave, and the real side has signs. That is the pattern lattice QCD lives with, where one standard route is to simulate at imaginary μ and continue analytically.
+
+Two cautions. This model is Gaussian: its partition function is a single determinant, so the signs exist only in the forest representation, and it is a laboratory, not a hard case. And on the lattices I could enumerate, the sign problem is mild. With a mass term m = 0.5, the average sign (the partition function divided by the sum of the absolute weights) grows with the time extent but falls with the spatial size: at L = 3 and μ = 0.6 it is 0.165, 0.132 and 0.098 for two, three and four spatial sites. That is the direction a sign problem goes, but three points cannot establish the exponential decay in volume that makes one severe.
+
+> *(G) How does the real-stable, Lorentzian structure at imaginary μ break down along the continuation to real μ? At what rate in the spatial volume does the average sign decay, and how does the rate depend on μ?*
+
+> *(H) The interacting case. The arboreal gas, spanning forests with the four-fermion term of Caracciolo et al., is the H^{0|2} sigma model. Bauerschmidt, Crawford, Helmuth and Swan used its OSp(1|2) symmetry to show that trees do not percolate in two dimensions, and Bauerschmidt, Crawford and Helmuth combined it with the renormalization group to prove a percolation transition in three or more dimensions. That model is not exactly solvable, so a chemical potential there would give a sign problem in earnest. Does the μ-deformation preserve OSp(1|2)? If it does, their machinery may apply. If it does not, which part of the positive, log-concave structure survives?*
+
+Troyer and Wiese make it unlikely that a general positive re-expansion exists at real μ. What I would hope for is a special class where one does, and a precise account of why.
 
 Most of this may be naive, and some of it may be known to people I have not read. I would be grateful to be told either.
 
@@ -163,11 +188,12 @@ Calvin Sabastian Tanzil
 
 ---
 
-**P.S. on what came before, and on tools.** Everything described above was done before the Mathathon, and none of the questions (A)–(F) is answered here. The reduction in paragraph 7(c) is Brändén and Huh's theorem applied to this family; I checked it numerically but proved nothing new there. Every number in this note can be reproduced from `verification/`:
+**P.S. on what came before, and on tools.** Everything described above was done before the Mathathon, and none of the questions (A)–(H) is answered here. The reduction in paragraph 7(c) is Brändén and Huh's theorem applied to this family; I checked it numerically but proved nothing new there. Likewise, paragraph 14 combines theorems of Kenyon, Borcea–Brändén, Brändén–Huh and Zaslavsky; what is mine there is the computation and the questions. Every number in this note can be reproduced from `verification/`:
 
 - `hyp_check.py` for paragraph 2;
 - `spectral_gap.py`, `gap_normalized.py` and `observations.py` for paragraph 9;
-- `chemical_potential.py` for paragraphs 6 and 7.
+- `driven_deformation.py` for paragraphs 5–7;
+- `chemical_potential.py` for paragraph 14.
 
 I used AI assistants for drafting, for algebra, for literature searches and for writing code, and Axplorer is planned for the search in paragraph 12. The computations have an independent check: the closed-form scripts are validated against symbolic computation.
 
@@ -180,5 +206,11 @@ I used AI assistants for drafting, for algebra, for literature searches and for 
 - R. Burton, R. Pemantle, *Local characteristics, entropy and limit theorems for spanning trees and domino tilings via transfer-impedances*, Ann. Probab. 21 (1993), 1329–1371.
 - N. Anari, K. Liu, S. Oveis Gharan, C. Vinzant, *Log-concave polynomials II*, Ann. of Math. 199 (2024), 259–299.
 - N. Anari, K. Liu, S. Oveis Gharan, *Spectral independence in high-dimensional expanders and applications to the hardcore model*, FOCS 2020.
+- P. Hasenfratz, F. Karsch, *Chemical potential on the lattice*, Phys. Lett. B 125 (1983), 308–310.
+- R. Kenyon, *Spanning forests and the vector bundle Laplacian*, Ann. Probab. 39 (2011). [arXiv:1001.4028](https://arxiv.org/abs/1001.4028)
+- J. Borcea, P. Brändén, *Applications of stable polynomials to mixed determinants: Johnson's conjectures, unimodality, and symmetrized Fischer products*, Duke Math. J. 143 (2008), Proposition 2.4. [arXiv:math/0607755](https://arxiv.org/abs/math/0607755)
+- T. Zaslavsky, *Biased graphs. II. The three matroids*, J. Combin. Theory Ser. B 51 (1991), 46–72.
+- R. Bauerschmidt, N. Crawford, T. Helmuth, A. Swan, *Random spanning forests and hyperbolic symmetry*, Commun. Math. Phys. 381 (2021), 1223–1261. [arXiv:1912.04854](https://arxiv.org/abs/1912.04854)
+- R. Bauerschmidt, N. Crawford, T. Helmuth, *Percolation transition for random forests in d ≥ 3*, Invent. Math. 237 (2024), 445–540. [arXiv:2107.01878](https://arxiv.org/abs/2107.01878)
 
 Full citations, with DOIs, are in the README.

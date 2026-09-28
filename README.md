@@ -23,13 +23,16 @@ be the basis generating (Kirchhoff) polynomial of its graphic matroid, summing o
 - **All hypotheses are needed, and bridges are harmless.** A loop or a parallel pair produces a zero eigenvalue; a single edge (rank 1) has zero Hessian. Graphs with bridges, including trees on ≥ 3 vertices, still have signature (1, n − 1). See the verification table below.
 - By Euler's identity for homogeneous polynomials, x itself is a positive direction of the Hessian.
 
-**This repository's contribution** is not the theorem itself. It is computational: checks of the hypothesis boundary, measurements of how far from degenerate the Hessian is, and the finding that a genuine chemical potential can destroy the Lorentzian property (next section). The questions these raise are set out in [`ROADMAP.md`](ROADMAP.md).
+**This repository's contribution** is not the theorem itself. It is computational: checks of the hypothesis boundary, measurements of how far from degenerate the Hessian is, the finding that direction-dependent (driven) hopping can destroy the Lorentzian property, and the observation that a genuine lattice chemical potential makes some weights negative (next section). The questions these raise are set out in [`ROADMAP.md`](ROADMAP.md).
 
-## Weighted deformation (a corollary)
+## Deformations
 
 Rescaling each variable by a positive edge weight, x_e ↦ w_e x_e, is a nonnegative linear change of variables, so f_G stays Lorentzian (Brändén–Huh). It also preserves simplicity, so the signature theorem applies to the rescaled polynomial. This is a direct corollary.
 
-A symmetric rescaling is **not** a chemical potential: a chemical potential weights forward and backward hopping differently (e^{±μ}). With that asymmetric deformation the polynomial stays positive (Tutte's directed matrix-tree theorem) but can **lose** the Lorentzian property. On K₄ it fails at every μ > 0 tested (`verification/chemical_potential.py`; see [ROADMAP ¶6–7](ROADMAP.md)). By Brändén–Huh's Theorem 3.14, f_μ is Lorentzian for every μ ≥ 0 exactly when the forward-edge count s_r is M-concave on spanning trees; the script checks both sides.
+A symmetric rescaling is **not** a chemical potential. Direction-dependent hopping, e^{+μ} forward and e^{−μ} backward, can enter the Laplacian in two ways, which differ only in the diagonal:
+
+- **Driven deformation.** The diagonal is adjusted so that every column sums to zero (Tutte's directed Laplacian; up to sign and transposition, the generator of a biased random walk). The polynomial stays positive but can **lose** the Lorentzian property: on K₄ it fails at every μ > 0 tested. By Brändén–Huh's Theorem 3.14 it is Lorentzian for every μ ≥ 0 exactly when the forward-edge count s_r is M-concave on spanning trees. (`verification/driven_deformation.py`; [ROADMAP ¶5–8](ROADMAP.md).)
+- **Lattice chemical potential** (Hasenfratz–Karsch). The diagonal is left alone. By Kenyon's theorem the determinant is a sum over cycle-rooted spanning forests, with a factor 2 − e^{μℓ} − e^{−μℓ} for each cycle whose net time displacement is ℓ. Real μ makes weights **negative**. Imaginary μ keeps them nonnegative, and the polynomial is then real stable and hence Lorentzian. (`verification/chemical_potential.py`; [ROADMAP ¶14](ROADMAP.md).)
 
 ---
 
@@ -43,7 +46,8 @@ python spectral_gap.py     # closed-form Hessian, validated against symbolic; ra
 python gap_normalized.py   # normalized gap γ across weight ratios K = 1, 2, 10, 100
 python plot_gap.py         # regenerates figures/gap_vs_size.png
 python observations.py     # closed forms at uniform weights; exhaustive small-graph scan (ROADMAP ¶9)
-python chemical_potential.py  # exact Lorentzian test under a chemical potential, and the M-concavity criterion (ROADMAP ¶6–7)
+python driven_deformation.py  # driven (Tutte) deformation: exact Lorentzian test and the M-concavity criterion (ROADMAP ¶5–7)
+python chemical_potential.py   # lattice chemical potential: Kenyon forests, signs at real μ, Lorentzian at imaginary μ (ROADMAP ¶14)
 ```
 
 
@@ -125,9 +129,9 @@ The first Lean 4 target is a certificate of the K₄ counterexample. Taking e^μ
 | Status | Content |
 |---|---|
 | **Known (cited)** | Hessian signature theorem (Nagaoka–Yazawa; Murai–Nagaoka–Yazawa) |
-| **Computationally verified** | Signature on the graphs above, including the hypothesis boundary; normalized gap γ bounded in graph size for bounded weight ratios (six families); an asymmetric chemical potential breaks the Lorentzian property on K₄, K₅, the house and the diamond (for one of two roots), and the M-concavity criterion agrees with the eigenvalue test in 24 of 24 cases |
+| **Computationally verified** | Signature on the graphs above, including the hypothesis boundary; normalized gap γ bounded in graph size for bounded weight ratios (six families); the driven deformation breaks the Lorentzian property on K₄, K₅, the house and the diamond (for one of two roots), and the M-concavity criterion agrees with the eigenvalue test in 24 of 24 cases; a lattice chemical potential gives negative forest weights at real μ and a Lorentzian polynomial at imaginary μ (small periodic ladders) |
 | **Proposal (not a theorem)** | Reading the Hessian as an emergent Lorentzian metric, i.e. a combinatorial model of spacetime |
-| **Open (to my knowledge)** | When the forward-edge count s_r is M-concave on spanning trees, i.e. when the chemical-potential deformation stays Lorentzian for every μ (Brändén–Huh, Thm 3.14); is triangle-free sufficient? a uniform lower bound on γ for bounded weight ratios; continuum limits |
+| **Open (to my knowledge)** | When the forward-edge count s_r is M-concave on spanning trees, i.e. when the driven deformation stays Lorentzian for every μ (Brändén–Huh, Thm 3.14); is triangle-free sufficient? How the imaginary-μ structure breaks down toward real μ; a uniform lower bound on γ for bounded weight ratios; continuum limits |
 
 All results are for finite graphs. The physical interpretation motivates the program, but none of the mathematics above depends on it.
 
@@ -146,3 +150,11 @@ AI assistants (Claude) were used to draft, stress-test arguments, check citation
 - R. Burton, R. Pemantle, *Local characteristics, entropy and limit theorems for spanning trees and domino tilings via transfer-impedances*, Ann. Probab. 21(3) (1993), 1329–1371. [doi:10.1214/aop/1176989121](https://doi.org/10.1214/aop/1176989121)
 - N. Anari, K. Liu, S. Oveis Gharan, *Spectral independence in high-dimensional expanders and applications to the hardcore model*, FOCS 2020; SIAM J. Comput. [doi:10.1137/20M1367696](https://doi.org/10.1137/20M1367696), [arXiv:2001.00303](https://arxiv.org/abs/2001.00303)
 - D. Štefankovič, E. Vigoda, *Lecture notes on spectral independence and bases of a matroid: local-to-global and trickle-down from a Markov chain perspective*, [arXiv:2307.13826](https://arxiv.org/abs/2307.13826)
+- S. Caracciolo, J. L. Jacobsen, H. Saleur, A. D. Sokal, A. Sportiello, *Fermionic field theory for trees and forests*, Phys. Rev. Lett. 93 (2004), 080601. [doi:10.1103/PhysRevLett.93.080601](https://doi.org/10.1103/PhysRevLett.93.080601), [arXiv:cond-mat/0403271](https://arxiv.org/abs/cond-mat/0403271)
+- M. Troyer, U.-J. Wiese, *Computational complexity and fundamental limitations to fermionic quantum Monte Carlo simulations*, Phys. Rev. Lett. 94 (2005), 170201. [doi:10.1103/PhysRevLett.94.170201](https://doi.org/10.1103/PhysRevLett.94.170201), [arXiv:cond-mat/0408370](https://arxiv.org/abs/cond-mat/0408370)
+- P. Hasenfratz, F. Karsch, *Chemical potential on the lattice*, Phys. Lett. B 125 (1983), 308–310. [doi:10.1016/0370-2693(83)91290-X](https://doi.org/10.1016/0370-2693(83)91290-X)
+- R. Kenyon, *Spanning forests and the vector bundle Laplacian*, Ann. Probab. 39 (2011). [doi:10.1214/10-AOP596](https://doi.org/10.1214/10-AOP596), [arXiv:1001.4028](https://arxiv.org/abs/1001.4028)
+- J. Borcea, P. Brändén, *Applications of stable polynomials to mixed determinants: Johnson's conjectures, unimodality, and symmetrized Fischer products*, Duke Math. J. 143 (2008). [doi:10.1215/00127094-2008-018](https://doi.org/10.1215/00127094-2008-018), [arXiv:math/0607755](https://arxiv.org/abs/math/0607755)
+- T. Zaslavsky, *Biased graphs. II. The three matroids*, J. Combin. Theory Ser. B 51 (1991), 46–72.
+- R. Bauerschmidt, N. Crawford, T. Helmuth, A. Swan, *Random spanning forests and hyperbolic symmetry*, Commun. Math. Phys. 381 (2021), 1223–1261. [doi:10.1007/s00220-020-03921-y](https://doi.org/10.1007/s00220-020-03921-y), [arXiv:1912.04854](https://arxiv.org/abs/1912.04854)
+- R. Bauerschmidt, N. Crawford, T. Helmuth, *Percolation transition for random forests in d ≥ 3*, Invent. Math. 237 (2024), 445–540. [arXiv:2107.01878](https://arxiv.org/abs/2107.01878)
