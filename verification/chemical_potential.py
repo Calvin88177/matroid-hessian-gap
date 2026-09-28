@@ -172,3 +172,47 @@ if __name__ == "__main__":
         for root in sorted(G.nodes())[:2]:
             row = [max_positive_eigs(G, root, m)[0] for m in mus]
             print(f"{name:10s} {root:4d}  " + "  ".join(f"{r:<7d}" for r in row))
+
+    # Braenden-Huh, Theorem 3.14: sum_a q^{nu(a)} x^a / a! is Lorentzian for all 0 < q <= 1
+    # iff nu is M-convex. Here q = e^{-mu} and nu = -s_r, so f_mu is Lorentzian for every
+    # mu >= 0 iff s_r is M-concave on spanning trees (a valuated matroid). Check both sides.
+    def s_r(G, T, root):
+        return round(np.log(coefficient(G, T, root, 1.0)))  # c_T(mu = 1) = e^{s_r(T)}
+
+    def m_concave(G, root):
+        """Exchange axiom: for all trees A, B and a in A - B there is b in B - A with
+        A - a + b, B - b + a trees and s(A) + s(B) <= s(A - a + b) + s(B - b + a)."""
+        trees = list(spanning_trees(G))
+        tree_set = set(trees)
+        s = {T: s_r(G, T, root) for T in trees}
+        for A in trees:
+            for B in trees:
+                for a in A - B:
+                    if not any(
+                        ((A - {a}) | {b}) in tree_set and ((B - {b}) | {a}) in tree_set
+                        and s[A] + s[B] <= s[(A - {a}) | {b}] + s[(B - {b}) | {a}]
+                        for b in B - A
+                    ):
+                        return False
+        return True
+
+    more = dict(graphs)
+    more.update({
+        "house": nx.house_graph(),
+        "bowtie": nx.Graph([(0, 1), (1, 2), (0, 2), (2, 3), (3, 4), (2, 4)]),
+        "C6": nx.cycle_graph(6),
+        "K3,3": nx.complete_bipartite_graph(3, 3),
+        "3x3 grid": nx.convert_node_labels_to_integers(nx.grid_2d_graph(3, 3)),
+    })
+    test_mus = [0.01, 0.1, 0.5, 1.0, 2.0, 5.0]
+    print()
+    print(f"{'graph':10s} root  s_r M-concave   Lorentzian at all mu in {test_mus}")
+    agree = total = 0
+    for name, G in more.items():
+        for root in sorted(G.nodes())[:2]:
+            mc = m_concave(G, root)
+            lor = all(max_positive_eigs(G, root, m)[0] <= 1 for m in test_mus)
+            agree += mc == lor
+            total += 1
+            print(f"{name:10s} {root:4d}  {str(mc):15s} {lor}")
+    print(f"M-concavity of s_r agrees with the eigenvalue test in {agree} of {total} cases")
